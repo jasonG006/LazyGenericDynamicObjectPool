@@ -13,7 +13,6 @@
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
 	"Installed": false,
-	"EngineVersion": "5.4.0",
 	"Modules": [
 		{
 			"Name": "LazyGenericDynamicObjectPool",

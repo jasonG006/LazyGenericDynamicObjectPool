@@ -155,24 +155,50 @@ void UK2Node_SpawnActorFromPool::ExpandNode(FKismetCompilerContext& CompilerCont
 
 FText UK2Node_SpawnActorFromPool::GetNodeTitle(ENodeTitleType::Type TitleType) const
 {
-    const UEdGraphPin* ClassPin = GetClassPin();
-    if (!ClassPin)
+    FText NodeTitle = NSLOCTEXT("K2Node", "SpawnActor_BaseTitle", "Spawn Actor from Pool");
+    if (TitleType != ENodeTitleType::MenuTitle)
     {
-        return LOCTEXT("K2Node_FilterPoints_NodeTitle_Default", "Spawn Actor From Pool");
-    }
+        if (UEdGraphPin* ClassPin = GetClassPin())
+        {
+            if (ClassPin->LinkedTo.Num() > 0)
+            {
+                // Blueprint will be determined dynamically, so we don't have the name in this case
+                NodeTitle = NSLOCTEXT("K2Node", "SpawnActor_Title_Unknown", "SpawnActor");
+            }
+            else if (ClassPin->DefaultObject == nullptr)
+            {
+                NodeTitle = NSLOCTEXT("K2Node", "SpawnActor_Title_NONE", "SpawnActor NONE From Pool");
+            }
+            else
+            {
+                if (CachedNodeTitle.IsOutOfDate(this))
+                {
+                    FText ClassName;
+                    if (const UClass* PickedClass = Cast<UClass>(ClassPin->DefaultObject))
+                    {
+                        ClassName = PickedClass->GetDisplayNameText();
+                    }
 
-    FText ClassName = FText::FromString(TEXT("NONE"));
-    if (const UClass* PickedClass = Cast<UClass>(ClassPin->DefaultObject))
-    {
-        ClassName = PickedClass->GetDisplayNameText();
-    }
+                    FFormatNamedArguments Args;
+                    Args.Add(TEXT("ClassName"), ClassName);
 
-    return FText::Format(LOCTEXT("K2Node_SpawnActorFromPool_NodeTitle_Format", "Spawn {0} From Pool"), ClassName);
+                    // FText::Format() is slow, so we cache this to save on performance
+                    CachedNodeTitle.SetCachedText(FText::Format(NSLOCTEXT("K2Node", "SpawnActor_Title_Class", "SpawnActor {ClassName} From Pool"), Args), this);
+                }
+                NodeTitle = CachedNodeTitle;
+            } 
+        }
+        else
+        {
+            NodeTitle = NSLOCTEXT("K2Node", "SpawnActor_Title_NONE", "SpawnActor NONE");
+        }
+    }
+    return NodeTitle;
 }
 
 FText UK2Node_SpawnActorFromPool::GetTooltipText() const
 {
-    return LOCTEXT("GetActorFromPool_Tooltip", "Spawns an actor from the object pool or creates a new one if the pool is empty");
+    return LOCTEXT("GetActorFromPool_Tooltip", "Spawns an actor from the object pool or creates a new one if the pool is empty.\n\nWARNING: This node returns a raw actor pointer. Consider using 'Spawn Pooled Actor (Safe)' instead, which returns a safe handle that prevents accidental use of actors returned to the pool.");
 }
 
 FSlateIcon UK2Node_SpawnActorFromPool::GetIconAndTint(FLinearColor& OutColor) const

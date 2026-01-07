@@ -67,7 +67,17 @@ void FLazyGenericDynamicObjectPoolEditorModule::RegisterMenus()
 
 	UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar.PlayToolBar");
 	FToolMenuSection& NewSection = ToolbarMenu->FindOrAddSection("PluginTools");
-	FToolMenuEntry& Entry = NewSection.AddEntry(FToolMenuEntry::InitToolBarButton(FLazyGenericDynamicObjectPoolCommands::Get().OpenPluginWindow));
+
+	FToolMenuEntry& Entry = NewSection.AddEntry(FToolMenuEntry::InitToolBarButton
+	(
+		FName(TEXT("LazyGenericPoolWindow")),
+		FToolUIActionChoice(FLazyGenericDynamicObjectPoolCommands::Get().OpenPluginWindow, *PluginCommands),
+		LOCTEXT("OpenDebugConsole", "Open Debug Console"),
+		LOCTEXT("OpenDebugConsoleTooltip", "Opens the Lazy Generic Pool Debug Console"),
+		FSlateIcon(FLazyGenericDynamicObjectPoolStyle::GetStyleSetName(), "LazyGenericPoolWindow.OpenPluginWindow")
+	));
+	Entry.Type = EMultiBlockType::ToolBarButton;
+	
 	Entry.SetCommandList(PluginCommands);
 }
 

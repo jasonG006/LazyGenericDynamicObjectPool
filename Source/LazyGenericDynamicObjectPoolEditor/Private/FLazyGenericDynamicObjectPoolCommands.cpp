@@ -6,7 +6,7 @@
 
 void FLazyGenericDynamicObjectPoolCommands::RegisterCommands()
 {
-	UI_COMMAND(OpenPluginWindow, "LazyGenericPoolWindow", "Open Lazy Generic Pool Debug Console", EUserInterfaceActionType::Button, FInputChord());
+	UI_COMMAND(OpenPluginWindow, "LazyGenericPoolWindow", "Open Lazy Generic Pool Debug Console", EUserInterfaceActionType::ToggleButton, FInputChord());
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -10,11 +10,10 @@ class FLazyGenericDynamicObjectPoolCommands : public TCommands<FLazyGenericDynam
 {
 public:
 	FLazyGenericDynamicObjectPoolCommands()
-		: TCommands<FLazyGenericDynamicObjectPoolCommands>
+	: TCommands<FLazyGenericDynamicObjectPoolCommands>
 	(TEXT("LazyGenericPoolWindow"), NSLOCTEXT("Contexts", "LazyGenericPoolWindow", "Lazy Generic Pool Window Plugin"),
 		NAME_None, FLazyGenericDynamicObjectPoolStyle::GetStyleSetName())
-	{
-	}
+	{}
 
 	// TCommands<> interface
 	virtual void RegisterCommands() override;

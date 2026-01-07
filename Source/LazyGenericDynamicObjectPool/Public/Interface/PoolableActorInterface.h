@@ -23,6 +23,9 @@ class LAZYGENERICDYNAMICOBJECTPOOL_API IPoolableActorInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
+	UFUNCTION(BlueprintNativeEvent, Category = "Object Pool")
+	void OnInitializeForPool();
+
 	/**
 	 * Called when the actor is activated from the pool.
 	 * Use this to reset the actor's properties and initialize it for use.
@@ -36,6 +39,8 @@ public:
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Object Pool")
 	void OnDeactivateToPool();
-	
-	void ResetActor();
+
+	// Called to reset actor state for reuse
+	UFUNCTION(BlueprintNativeEvent, Category = "Object Pool")
+	void OnResetForReuse();
 };

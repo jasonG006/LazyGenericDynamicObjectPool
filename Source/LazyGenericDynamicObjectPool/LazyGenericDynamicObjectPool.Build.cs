@@ -39,10 +39,10 @@ public class LazyGenericDynamicObjectPool : ModuleRules
 				"Slate",
 				"SlateCore",
 				"DeveloperSettings", 
+				"TraceLog",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
-		
 		
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
@@ -52,3 +52,5 @@ public class LazyGenericDynamicObjectPool : ModuleRules
 			);
 	}
 }
+
+

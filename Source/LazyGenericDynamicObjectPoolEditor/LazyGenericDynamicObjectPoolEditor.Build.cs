@@ -53,7 +53,8 @@ public class LazyGenericDynamicObjectPoolEditor : ModuleRules
                 "ToolWidgets",
                 "UnrealEd",
                 "KismetCompiler",
-                "BlueprintGraph"
+                "BlueprintGraph", 
+                "SceneOutliner"
                 // ... add private dependencies that you statically link with here ...	
             }
         );
